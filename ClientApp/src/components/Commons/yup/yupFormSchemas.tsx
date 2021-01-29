@@ -281,6 +281,22 @@ const yupFormSchemas = {
 
     return yupChain;
   },
+  datetimeRange(label, config?) {
+    config = config || {};
+    let yupChain = yup.array().of(yup
+      .mixed()
+      .nullable(true)
+      .label(label)
+      .transform((value, originalValue) =>
+        value ? moment(value).format("YYYY-MM-DDTHH:mm:ss") : null
+      ));
+
+    if (config.required) {
+      yupChain = yupChain.required();
+    }
+
+    return yupChain;
+  },
   date(label, config?) {
     config = config || {};
     let yupChain = yup

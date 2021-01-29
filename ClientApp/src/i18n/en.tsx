@@ -33,6 +33,10 @@ const en = {
     simplePage: {
       fields: {
         exText1: "Input Hook Form 1",
+        exDate1: "Datetime Hook Form 1",
+        exDateRange1: "Date Range Hook Form 1",
+        exDateRange1Start: "Start Date",
+        exDateRange1End: "End Date",
       }
     }
   },
