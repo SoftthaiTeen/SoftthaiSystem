@@ -5,10 +5,13 @@ import DataTableForm1 from "src/view/Form1/DataTableForm1";
 
 function Form1Content() {
     return (
-        <ContentWrapper>
-            <SimpleForm1 />
-            <DataTableForm1 />
-        </ContentWrapper>
+        <React.Fragment>
+            <ContentWrapper>
+                <SimpleForm1 />
+                <DataTableForm1 />
+            </ContentWrapper>
+        </React.Fragment>
+
     )
 }
 

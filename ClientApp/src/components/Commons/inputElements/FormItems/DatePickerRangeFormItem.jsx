@@ -3,6 +3,7 @@ import {
   DateRangeDelimiter,
   LocalizationProvider,
   DateTimePicker,
+  DateRangePicker,
   DatePicker,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@material-ui/pickers/adapter/date-fns";
@@ -47,7 +48,7 @@ function DatePickerRangeFormItem(props) {
     externalErrorMessage,
   );
 
-  const originalValue = watch(name)|| [null,null];
+  const originalValue = watch(name) || [null, null];
 
   useEffect(() => {
     register({ name });
@@ -64,7 +65,7 @@ function DatePickerRangeFormItem(props) {
   };
 
   const handleChangeValue = (value) => {
-    console.log("handleChangeValue", value)
+
     setValue(name, value, { shouldValidate: true });
     props.onChange && props.onChange(value);
   };
@@ -75,7 +76,7 @@ function DatePickerRangeFormItem(props) {
     if (!startValue() && !endValue()) {
       return [null, null];
     }
-    console.log("value", [startValue(), endValue()])
+
     return [startValue(), endValue()];
   };
 
@@ -115,25 +116,26 @@ function DatePickerRangeFormItem(props) {
 
 
   const format = showTime ? "dd/MM/yyyy HH:mm" : "dd/MM/yyyy";
-  const selectDate = value() || [null, null];
-  console.log("originalValue", originalValue)
+
   return (
     <LocalizationProvider
       dateAdapter={DateFnsUtils}
       locale={getLanguage().dateFns}
     >
-      <MobileDateRangePicker
-        clearable
+      <DateRangePicker
         inputFormat={format}
         startText={startText}
         endText={endText}
         id={name}
         name={name}
         value={originalValue}
-        onChange={(value) => handleChangeValue(value)}
-        // onBlur={(event) => {
-        //   props.onBlur && props.onBlur(event);
-        // }}
+        onChange={(value) => {
+          handleChangeValue(value);
+          props.onChange && props.onChange(value)
+        }}
+        onBlur={(event) => {
+          props.onBlur && props.onBlur(event);
+        }}
         required={required}
         {...inputProps}
         autoOk={false}
@@ -198,6 +200,8 @@ DatePickerRangeFormItem.propTypes = {
   startText: PropTypes.string,
   endText: PropTypes.string,
   inputProps: PropTypes.object,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func
 };
 
 export default DatePickerRangeFormItem;

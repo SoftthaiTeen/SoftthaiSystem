@@ -39,14 +39,25 @@ function AppWithTheme(props) {
     palette: {
       primary: {
         main: defaults.primary,
+
       },
       secondary: {
         main: defaults.secondary,
       },
     },
-    typography: {
-      fontSize: 12.5,
-    },
+    // typography: {
+    //   fontSize: 12.5,
+    // },
+    overrides: {
+      MuiFormLabel: {
+        asterisk: {
+          color: '#ff0000',
+          '&$error': {
+            color: '#ff0000'
+          },
+        }
+      }
+    }
   });
 
   return (

@@ -6,7 +6,7 @@ export default class SnackbarComs {
   }
 
   static success(arg) {
-    notistakEnqueueSnackbar(arg);
+    notistakEnqueueSnackbar(arg, { variant: 'success' });
   }
 
   static error(arg) {

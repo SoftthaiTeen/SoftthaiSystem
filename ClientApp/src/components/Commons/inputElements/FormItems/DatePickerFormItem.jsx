@@ -109,7 +109,9 @@ DatePickerFormItem.propTypes = {
     placeholder: PropTypes.string,
     externalErrorMessage: PropTypes.string,
     showTime: PropTypes.bool,
-    inputProps: PropTypes.object
+    inputProps: PropTypes.object,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func
 };
 
 export default DatePickerFormItem;

@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { Component } from 'react';
 import NProgress from 'nprogress';
 import './nprogress_custom.css';
 
 NProgress.configure({ showSpinner: false });
 
-class ProgressBar {
+export class ProgressBar {
     static start() {
         NProgress.start();
     }
@@ -14,14 +14,24 @@ class ProgressBar {
     }
 }
 
-export default function LoadingComponent() {
-    useEffect(() => {
-        ProgressBar.start();
-
-        return () => {
-            ProgressBar.done();
+export default class LoadingComponent extends Component {
+    constructor(props) {
+        super(props);
+    
+        this.state = {
+          component: null,
         };
-    }, []);
-
-    return <div />;
+      }
+    
+      componentWillMount() {
+        ProgressBar.start();
+      }
+    
+      componentWillUnmount() {
+        ProgressBar.done();
+      }
+    
+      render() {
+        return <div />;
+      }
 }
