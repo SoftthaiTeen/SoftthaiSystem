@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormErrors from 'src/components/Commons/inputElements/formErrors';
 import {
   Checkbox,
@@ -15,6 +17,7 @@ export function CheckboxFormItem(props) {
     name,
     hint,
     required,
+    labelPlacement,
     externalErrorMessage,
   } = props;
 
@@ -37,39 +40,44 @@ export function CheckboxFormItem(props) {
     isSubmitted,
     externalErrorMessage,
   );
-
+  const positionLabel = labelPlacement != "" ? labelPlacement : "end";
   const formHelperText = errorMessage || hint;
 
   return (
-    <FormControl
-      required={required}
-      fullWidth
-      error={Boolean(errorMessage)}
-      component="fieldset"
-      size="small"
-    >
-      <FormLabel component="legend">{label}</FormLabel>
-      <div>
-        <Checkbox
-          id={name}
-          name={name}
-          checked={watch(name) || false}
-          onChange={(e) => {
-            setValue(name, Boolean(e.target.checked), { shouldValidate: true });
-            props.onChange &&
-              props.onChange(e.target.checked);
-          }}
-          onBlur={() => props.onBlur && props.onBlur(null)}
-          color="secondary"
-          size="small"
-        ></Checkbox>
-      </div>
-      {formHelperText && (
-        <FormHelperText style={{ marginTop: 0 }}>
-          {formHelperText}
-        </FormHelperText>
-      )}
-    </FormControl>
+    <FormGroup>
+      <FormControl
+        required={required}
+        fullWidth
+        error={Boolean(errorMessage)}
+        component="fieldset"
+        size="small"
+      >
+        <div>
+          <FormControlLabel
+            control={<Checkbox
+              id={name}
+              name={name}
+              checked={watch(name) || false}
+              onChange={(e) => {
+                setValue(name, Boolean(e.target.checked), { shouldValidate: true });
+                props.onChange &&
+                  props.onChange(e.target.checked);
+              }}
+              onBlur={() => props.onBlur && props.onBlur(null)}
+              color="secondary"
+              size="small"
+            ></Checkbox>}
+            label={label}
+            labelPlacement={positionLabel}
+          />
+        </div>
+        {formHelperText && (
+          <FormHelperText style={{ marginTop: 0 }}>
+            {formHelperText}
+          </FormHelperText>
+        )}
+      </FormControl>
+    </FormGroup>
   );
 }
 
@@ -80,6 +88,7 @@ CheckboxFormItem.propTypes = {
   required: PropTypes.bool,
   label: PropTypes.string,
   hint: PropTypes.string,
+  labelPlacement: PropTypes.string,
   externalErrorMessage: PropTypes.string,
 };
 

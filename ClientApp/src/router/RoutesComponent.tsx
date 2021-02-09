@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
+import { useSelector } from 'react-redux';
+import LayoutSelectors from "src/store/selectors/LayoutSelectors";
 import { Switch } from "react-router-dom";
 import { ProgressBar } from "src/router/LoadableComponent/LoadingComponent";
 import _blankRoute from "src/router/_blankRoute";
@@ -11,29 +13,27 @@ import { setInterval } from "timers";
 
 function RoutesComponent() {
     const isInitialMount = useRef(true);
-    // const [loading, Setloading] = useState(true);
-   
-    // setInterval(() => {
-    //     Setloading(false);
-    // }, 1000);
-    // useEffect(() => {
-    //     if (isInitialMount.current) {
-    //         isInitialMount.current = false;
-    //         ProgressBar.start();
 
-    //         return;
-    //     }
+    const layoutLoading = useSelector(
+        LayoutSelectors.selectLoading,
+    );
+    const loading = layoutLoading;
+    useEffect(() => {
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+            ProgressBar.start();
 
+            return;
+        }
 
+        if (!loading) {
+            ProgressBar.done();
+        }
+    }, [loading]);
 
-    //     if (!loading) {
-    //         ProgressBar.done();
-    //     }
-    // }, [loading]);
-
-    // if (loading) {
-    //     return <div />;
-    // }
+    if (loading) {
+        return <div />;
+    }
     return (
         <Switch>
             {routes._blankRoute.map((route) => (

@@ -1,29 +1,26 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { TextField, InputAdornment } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import DateFnsUtils from "@material-ui/pickers/adapter/date-fns";
-import DateRangeOutlinedIcon from '@material-ui/icons/DateRangeOutlined';
 import {
-    MobileDatePicker,
-    MobileDateTimePicker,
+    TimePicker,
     LocalizationProvider,
 } from "@material-ui/pickers";
 import { getLanguage } from 'src/i18n';
 import { useFormContext } from 'react-hook-form';
 import FormErrors from 'src/components/Commons/inputElements/formErrors';
 
-export function DatePickerFormItem(props) {
+export function TimePickerFormItem(props) {
     const {
         label,
         name,
         hint,
-        placeholder,
-        autoFocus,
-        autoComplete,
         externalErrorMessage,
-        required,
-        showTime,
+        autoComplete,
         inputProps,
+        required,
+        minTime,
+        maxTime,
     } = props;
 
     const {
@@ -46,22 +43,21 @@ export function DatePickerFormItem(props) {
         externalErrorMessage,
     );
 
-    const DateTimePickerComponent = showTime
-        ? MobileDateTimePicker
-        : MobileDatePicker;
-
-    const format = showTime ? "dd/MM/yyyy HH:mm" : "dd/MM/yyyy";
+  
 
     return (
         <LocalizationProvider
             dateAdapter={DateFnsUtils}
             locale={getLanguage().dateFns}
         >
-            <DateTimePickerComponent
-                clearable
-                inputFormat={format}
-                label={label}
+            <TimePicker
                 id={name}
+                label={label}
+                ampm={false}
+                autoComplete={autoComplete || undefined}
+                autoOk={true}
+                minTime={minTime || undefined}
+                maxTime={maxTime || undefined}
                 onChange={(value) => {
                     setValue(name, value, { shouldValidate: true });
                     props.onChange && props.onChange(value);
@@ -70,13 +66,13 @@ export function DatePickerFormItem(props) {
                     props.onBlur && props.onBlur(event);
                 }}
                 value={watch(name) || null}
-                placeholder={placeholder || undefined}
-                autoFocus={autoFocus || undefined}
-                autoComplete={autoComplete || undefined}
+                // placeholder={placeholder || undefined}
+                // autoFocus={autoFocus || undefined}
+                // autoComplete={autoComplete || undefined}
                 // InputLabelProps={{
                 //     shrink: true,
                 // }}
-                autoOk
+                //autoOk
                 {...inputProps}
                 renderInput={(props) => (
                     <TextField
@@ -88,13 +84,6 @@ export function DatePickerFormItem(props) {
                         required={required}
                         error={Boolean(errorMessage)}
                         helperText={errorMessage || hint}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end" style={{ color: "#747474" }} >
-                                    <DateRangeOutlinedIcon />
-                                </InputAdornment>
-                            )
-                        }}
                     />
                 )}
             />
@@ -102,11 +91,11 @@ export function DatePickerFormItem(props) {
     );
 }
 
-DatePickerFormItem.defaultProps = {
+TimePickerFormItem.defaultProps = {
     required: false,
 };
 
-DatePickerFormItem.propTypes = {
+TimePickerFormItem.propTypes = {
     name: PropTypes.string.isRequired,
     required: PropTypes.bool,
     label: PropTypes.string,
@@ -122,4 +111,4 @@ DatePickerFormItem.propTypes = {
     onBlur: PropTypes.func
 };
 
-export default DatePickerFormItem;
+export default TimePickerFormItem;

@@ -1,5 +1,8 @@
 import React, { useLayoutEffect } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import * as LayoutStore from "src/store/LayoutStore";
+import LayoutSelectors from "src/store/selectors/LayoutSelectors";
 import clsx from "clsx";
 import {
   makeStyles,
@@ -11,7 +14,7 @@ import {
 } from "@material-ui/core";
 import MenuArray from "src/layout/CommonLayout/MenuArray";
 
-const drawerWidth = 200;
+const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -20,6 +23,24 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+  },
+  drawerOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  drawerClose: {
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: 'hidden',
+    width: theme.spacing(6),
+    [theme.breakpoints.up('sm')]: {
+      width: theme.spacing(7),
+    },
   },
   active: {
     color: theme.palette.primary.main,
@@ -36,7 +57,32 @@ const useStyles = makeStyles((theme) => ({
 
 function Menu(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
+  const menuVisible = useSelector(
+    LayoutSelectors.selectMenuVisible,
+  );
+  useLayoutEffect(() => {
+    const toggleMenuOnResize = () => {
+      (window as any).innerWidth < 576
+        ? dispatch(LayoutStore.LayoutActionCreators.doHideMenu())
+        : dispatch(LayoutStore.LayoutActionCreators.doShowMenu());
+    };
+
+    toggleMenuOnResize();
+
+    (window as any).addEventListener(
+      'resize',
+      toggleMenuOnResize,
+    );
+
+    return () => {
+      (window as any).removeEventListener(
+        'resize',
+        toggleMenuOnResize,
+      );
+    };
+  }, [dispatch]);
   const selectedKeys = () => {
     const url = props.url;
 
@@ -73,12 +119,18 @@ function Menu(props) {
 
   return (
     <Drawer
-      className={classes.drawer}
+      className={clsx(classes.drawer, {
+        [classes.drawerOpen]: menuVisible,
+        [classes.drawerClose]: !menuVisible,
+      })}
       variant="permanent"
       anchor="left"
       open={true}
       classes={{
-        paper: classes.drawerPaper,
+        paper: clsx(classes.drawer, {
+          [classes.drawerOpen]: menuVisible,
+          [classes.drawerClose]: !menuVisible,
+        })
       }}
     >
       <div className={classes.toolbar}></div>
@@ -99,13 +151,13 @@ function Menu(props) {
                   [classes.active]: selectedKeys().includes(menu.path),
                 })}
               >
-                {menu.label}
+                {menuVisible && menu.label}
               </ListItemText>
             </ListItem>
           </CustomRouterLink>
         ))}
 
-        
+
       </List>
     </Drawer>
   );

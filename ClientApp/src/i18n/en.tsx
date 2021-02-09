@@ -23,10 +23,46 @@ const en = {
     select: 'Select',
     continue: 'Continue',
     filters: 'Filters',
+    add:'Add',
+    clear:'Clear',
+    back:'Back',
+
+    confirm: "Confirmation",
+    Success: "Action Completed",
+    Warning: "Warning",
+    Error: "Error",
+    Info: "Information",
+    Hint: "Hint",
+    Duplicate: "Duplicate",
+    SaveComplete: "Data is already saved.",
+    DeleteComplete: "Data is already deleted.",
+    ErrorSomething: "Some thing went wrong.",
+    ConfirmSave: "Do you want to save data?",
+    ConfirmDelete: "Do you want to delete data?",
+    ConfirmCancel: "Do you want to cancel data?",
+    NoPermission: "Access denied.",
+    SessionTimeOut: "Session timeout.",
+    DeleteFail: 'Please select <i class="far fa-check-square"></i>',
+    UploadImage: "Please upload image.",
+    confirmSubmit: "Do you want to submit?",
+    confirmDraft: "Do you want to save draft?",
+    confirmApprove: "Do you want to approve?",
+    confirmQualify: "Do you want to qualified?",
+    confirmAnnounce: "Do you want to announce?",
+    confirmExportPDF: "Do you want to export PDF?",
+    confirmAppointment: "Do you want to appointment?",
+    confirmReview: "Do you want to review?",
+    confirmMsg: "Do you want to confirm?",
+    confirmTopicMsg: "Do you want to assign committee to scoring?",
+    confirmAssign: "Do you want to assign?",
+    confirmAward: "Do you want to save?",
+    confirmScore: "Do you want to save score?",
+    confirmReject: "Do you want to reject?",
+    deleteMessage: "Do you want to delete ?",
   },
 
   app: {
-    title: 'Softthai Application',
+    title: 'Softthai Intranet',
   },
 
   entities: {
@@ -38,11 +74,68 @@ const en = {
         exDateRange1Start: "Start Date",
         exDateRange1End: "End Date",
       }
-    }
+    },
+    FormInput: {
+      fields: {
+        arrProject: "Project",
+        dRequestDate: "Request Date",
+        dOverTimeDate: "Overtime Date",
+        StartTime: "StartTime",
+        EndTime: "EndTime",
+        Descrition: "Descrition",
+        CerDate: "Date of certification",
+        benefit: "Benefits requested  ( get off work after 22.00 only )",
+      }
+    },
+    FormInputHoliday: {
+      fields: {
+        Date: "Date",
+        Holiday_Name: "Holiday Name",
+        Substitution_Day: "Substitution Day",
+        Please: "Please Request",
+        Status: "Status",
+      }
+    },
+    Project_Add: {
+      fields: {
+        Type: "Type",
+        Project_Old: "Project Old",
+        Project_Name: "Project Name",
+        Project_Abbr: "Project Abbr",
+        Year: "Year",
+        Date: "Date",
+        Progress: "Progress",
+        Status: "Status",
+        Name: "Name",
+        Role: "Role",
+
+      }
+    },
+    FormInputMeeting: {
+      fields: {
+        sMeetingRoomName: "Room Name",
+        nFloorID: "Floor",
+        sActive: "Status"
+      }
+    },
+    allowance: {
+      fields: {
+        meet: "Meeting Detail",
+        project: "Project",
+        date: "Transaction date",
+        location: "Location",
+        date2: "Date",
+        roundtrip: "Round trip",
+        overnight: "Overnight",
+        starttime: "Start Time",
+        endtime: "End Time",
+        allowance: "Allowance",
+        typetime: "Round trip/Overnight",
+        time: "00.00"
+      }
+    },
+
   },
-
-
-
   errors: {
     backToHome: 'Back to home',
     403: `Sorry, you don't have access to this page`,

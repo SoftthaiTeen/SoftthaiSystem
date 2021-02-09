@@ -14,6 +14,7 @@ function TextAreaFormItem(props) {
     autoComplete,
     externalErrorMessage,
     required,
+    rows,
   } = props;
 
   const {
@@ -55,7 +56,7 @@ function TextAreaFormItem(props) {
         props.onBlur && props.onBlur(event);
       }}
       multiline
-      rows={4}
+      rows={rows}
       error={Boolean(errorMessage)}
       helperText={errorMessage || hint}
     />
@@ -65,6 +66,7 @@ function TextAreaFormItem(props) {
 TextAreaFormItem.defaultProps = {
   type: 'text',
   required: false,
+  rows: 4,
 };
 
 TextAreaFormItem.propTypes = {
@@ -76,6 +78,7 @@ TextAreaFormItem.propTypes = {
   prefix: PropTypes.string,
   placeholder: PropTypes.string,
   externalErrorMessage: PropTypes.string,
+  rows: PropTypes.number
 };
 
 export default TextAreaFormItem;

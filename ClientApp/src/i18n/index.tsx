@@ -21,7 +21,7 @@ const languages: {
     dateFns: null,
     dictionary: null,
   },
-  
+
 };
 
 export async function init() {
@@ -88,8 +88,9 @@ export function setLanguageCode(arg) {
   if (!languages[arg]) {
     throw new Error(`Invalid language ${arg}.`);
   }
-
+  moment.locale(arg);
   localStorage.setItem('language', arg);
+
 }
 
 export function i18nExists(key) {

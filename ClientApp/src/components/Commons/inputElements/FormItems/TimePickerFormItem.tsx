@@ -1,18 +1,16 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { TextField, InputAdornment } from "@material-ui/core";
+import React, { useEffect, useState } from 'react';
+import PropTypes from "prop-types";
+import FormErrors from 'src/components/Commons/inputElements/formErrors';
+import { TextField } from "@material-ui/core";
 import DateFnsUtils from "@material-ui/pickers/adapter/date-fns";
-import DateRangeOutlinedIcon from '@material-ui/icons/DateRangeOutlined';
-import {
-    MobileDatePicker,
-    MobileDateTimePicker,
-    LocalizationProvider,
-} from "@material-ui/pickers";
+import { TimePicker, LocalizationProvider, MobileDatePicker, MobileDateTimePicker, } from "@material-ui/pickers";
 import { getLanguage } from 'src/i18n';
 import { useFormContext } from 'react-hook-form';
-import FormErrors from 'src/components/Commons/inputElements/formErrors';
 
-export function DatePickerFormItem(props) {
+
+
+export function TimePickerFormItem(props) {
+    const [MinTime, SetMinTime] = useState(props.minTime);
     const {
         label,
         name,
@@ -24,6 +22,8 @@ export function DatePickerFormItem(props) {
         required,
         showTime,
         inputProps,
+        minTime,
+        maxTime,
     } = props;
 
     const {
@@ -50,14 +50,48 @@ export function DatePickerFormItem(props) {
         ? MobileDateTimePicker
         : MobileDatePicker;
 
-    const format = showTime ? "dd/MM/yyyy HH:mm" : "dd/MM/yyyy";
+    const format = "HH:mm";
 
     return (
         <LocalizationProvider
             dateAdapter={DateFnsUtils}
             locale={getLanguage().dateFns}
         >
-            <DateTimePickerComponent
+            <TimePicker
+                clearable
+                inputFormat={format}
+                label={label}
+                id={name}
+                ampm={false}
+                minTime={minTime || undefined}
+                maxTime={maxTime || undefined}
+                autoComplete={autoComplete || undefined}
+                onChange={(value) => {
+                    setValue(name, value);
+                    props.onChange && props.onChange(value);
+                }}
+                onBlur={(event) => {
+                    props.onBlur && props.onBlur(event);
+                }}
+                value={watch(name) || null}
+                autoOk
+                {...inputProps}
+                renderInput={(props) => (
+                    <TextField
+                        margin="normal"
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                        value={props.value || ''}
+                        {...props}
+                        required={required}
+                        error={Boolean(errorMessage)}
+                        helperText={errorMessage || hint}
+                        
+                    />
+                )}
+            />
+            {/* <DateTimePickerComponent
                 clearable
                 inputFormat={format}
                 label={label}
@@ -73,40 +107,21 @@ export function DatePickerFormItem(props) {
                 placeholder={placeholder || undefined}
                 autoFocus={autoFocus || undefined}
                 autoComplete={autoComplete || undefined}
-                // InputLabelProps={{
-                //     shrink: true,
-                // }}
-                autoOk
-                {...inputProps}
-                renderInput={(props) => (
-                    <TextField
-                        margin="normal"
-                        variant="outlined"
-                        size="small"
-                        fullWidth
-                        {...props}
-                        required={required}
-                        error={Boolean(errorMessage)}
-                        helperText={errorMessage || hint}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="end" style={{ color: "#747474" }} >
-                                    <DateRangeOutlinedIcon />
-                                </InputAdornment>
-                            )
-                        }}
-                    />
-                )}
-            />
+            // InputLabelProps={{
+            //     shrink: true,
+            // }}
+
+            /> */}
         </LocalizationProvider>
     );
 }
 
-DatePickerFormItem.defaultProps = {
+TimePickerFormItem.defaultProps = {
     required: false,
 };
 
-DatePickerFormItem.propTypes = {
+TimePickerFormItem.propTypes = {
+    form: PropTypes.object,
     name: PropTypes.string.isRequired,
     required: PropTypes.bool,
     label: PropTypes.string,
@@ -115,11 +130,10 @@ DatePickerFormItem.propTypes = {
     size: PropTypes.string,
     prefix: PropTypes.string,
     placeholder: PropTypes.string,
-    externalErrorMessage: PropTypes.string,
-    showTime: PropTypes.bool,
+    errorMessage: PropTypes.string,
     inputProps: PropTypes.object,
     onChange: PropTypes.func,
-    onBlur: PropTypes.func
+    value: PropTypes.string,
 };
 
-export default DatePickerFormItem;
+export default TimePickerFormItem;

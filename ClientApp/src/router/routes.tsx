@@ -16,6 +16,7 @@ const _CommonRoute = [
     loader: () => import("src/view/Form1/Form1Content"),
     exact: true,
   },
+  
 ].filter(Boolean);
 
 export default { _blankRoute, _CommonRoute };

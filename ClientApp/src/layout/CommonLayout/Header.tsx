@@ -1,4 +1,7 @@
 import React from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import * as LayoutStore from "src/store/LayoutStore";
+import LayoutSelectors from "src/store/selectors/LayoutSelectors";
 import { AppBar, Toolbar, IconButton, makeStyles } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
@@ -22,12 +25,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Header(props) {
+  const dispatch = useDispatch();
   const classes = useStyles();
+
+  const doToggleMenu = () => {
+    dispatch(LayoutStore.LayoutActionCreators.doToggleMenu());
+  };
 
   return (
     <AppBar className={classes.appBar} position="fixed">
       <Toolbar>
-        <IconButton edge="start" color="inherit">
+        <IconButton edge="start" color="inherit" onClick={doToggleMenu}>
           <MenuIcon />
         </IconButton>
 

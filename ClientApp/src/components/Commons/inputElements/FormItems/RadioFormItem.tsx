@@ -70,6 +70,7 @@ function RadioFormItem(props) {
             value={String(option.value)}
             control={<Radio size="small" />}
             label={option.label}
+            checked={String(props.value) !== "" ? (String(props.value) === String(option.value) ? true : false) : false}
           />
         ))}
       </RadioGroup>
@@ -93,6 +94,8 @@ RadioFormItem.propTypes = {
   hint: PropTypes.string,
   required: PropTypes.bool,
   externalErrorMessage: PropTypes.string,
+  onChange: PropTypes.func,
+  value: PropTypes.string
 };
 
 export default RadioFormItem;
